@@ -20,11 +20,11 @@ abus_bus_t *abus_bus_create(const char *name)
 }
 abus_bus_t *abus_bus_init(abus_bus_t *bus, const char *name)
 {
-ABUS_ASSERT(bus);
+    ABUS_ASSERT(bus);
     {
         bus->name = name;
 #if ABUS_USE_CVECTOR
-        cvector_init(&bus->accounters, sizeof(abus_accounter_t), NULL);
+        bus->accounters = cvector_create(sizeof(abus_accounter_t));
 #else
         bus->accounters = NULL;
         bus->accounters_size = 0;
@@ -34,10 +34,10 @@ ABUS_ASSERT(bus);
 }
 void abus_bus_destroy(abus_bus_t *bus)
 {
-ABUS_ASSERT(bus);
+    ABUS_ASSERT(bus);
     {
 #if ABUS_USE_CVECTOR
-        cvector_free(&bus->accounters);
+        cvector_destroy(bus->accounters);
 #else
         free(bus->accounters);
 #endif
@@ -47,10 +47,10 @@ ABUS_ASSERT(bus);
 
 int abus_bus_add_accounter(abus_bus_t *bus, abus_accounter_t *accounter)
 {
-ABUS_ASSERT(bus);
+    ABUS_ASSERT(bus);
     {
 #if ABUS_USE_CVECTOR
-        cvector_push_back(&bus->accounters, accounter);
+        cvector_pushback(bus->accounters, accounter);
 #else
         bus->accounters = (abus_accounter_t *)realloc(bus->accounters, sizeof(abus_accounter_t) * (cvector_size(&bus->accounters) + 1));
         if (bus->accounters)
@@ -67,10 +67,10 @@ ABUS_ASSERT(bus);
 }
 int abus_bus_remove_accounter(abus_bus_t *bus, abus_accounter_t *accounter)
 {
-ABUS_ASSERT(bus);
+    ABUS_ASSERT(bus);
     {
 #if ABUS_USE_CVECTOR
-        cvector_erase(&bus->accounters, accounter);
+        cvector_rm(bus->accounters, accounter);
 #else
         for (int i = 0; i < bus->accounters_size; i++)
         {
@@ -90,10 +90,17 @@ ABUS_ASSERT(bus);
 }
 bool abus_bus_find_accounter(abus_bus_t *bus, abus_accounter_t *accounter)
 {
-ABUS_ASSERT(bus);
+    ABUS_ASSERT(bus);
     {
 #if ABUS_USE_CVECTOR
-        return cvector_find(&bus->accounters, accounter);
+        for (citerator i = cvector_begin(bus->accounters); i < cvector_end(bus->accounters); i = cvector_next(bus->accounters, i))
+        {
+
+            if (((abus_accounter_t *)i) == accounter)
+            {
+                return true;
+            }
+        }
 #else
         for (int i = 0; i < bus->accounters_size; i++)
         {
@@ -103,21 +110,22 @@ ABUS_ASSERT(bus);
             }
         }
 #endif
+        return false;
     }
     return false;
 }
 
 abus_accounter_t *abus_bus_find_accounter_by_name(abus_bus_t *bus, const char *name)
 {
-ABUS_ASSERT(bus);
+    ABUS_ASSERT(bus);
     {
 #if ABUS_USE_CVECTOR
-        for (citerator i=cvector_begin(bus); i < cvector_end(bus); i=cvector_next(bus, i))
+        for (citerator i = cvector_begin(bus->accounters); i < cvector_end(bus->accounters); i = cvector_next(bus->accounters, i))
         {
-            
-            if (strcmp(((abus_accounter_t*)i)->name, name) == 0)
+
+            if (strcmp(((abus_accounter_t *)i)->name, name) == 0)
             {
-                return ((abus_accounter_t*)i);
+                return ((abus_accounter_t *)i);
             }
         }
 
@@ -137,15 +145,15 @@ ABUS_ASSERT(bus);
 
 abus_accounter_t *abus_bus_find_accounter_by_id(abus_bus_t *bus, int id)
 {
-ABUS_ASSERT(bus);
+    ABUS_ASSERT(bus);
     {
 #if ABUS_USE_CVECTOR
-        for (citerator i=cvector_begin(bus); i < cvector_end(bus); i=cvector_next(bus, i))
+        for (citerator i = cvector_begin(bus->accounters); i < cvector_end(bus->accounters); i = cvector_next(bus->accounters, i))
         {
-            
-            if (((abus_accounter_t*)i)->id == id)
+
+            if (((abus_accounter_t *)i)->id == id)
             {
-                return ((abus_accounter_t*)i);
+                return ((abus_accounter_t *)i);
             }
         }
 #else
