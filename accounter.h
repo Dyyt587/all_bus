@@ -51,47 +51,36 @@ extern "C"
     //     TYPE_ASYNC_WITH_CACHE_REF//内容的引用将会传递给deamon，拷贝到订阅者的缓存中
 
     // }abus_subscriber_type;
-
-
-    typedef struct{
-        int flag_is_async:1;
-
-    }flag_t;
     typedef struct
     {
-        abus_accounter_t* accounter;
-        flag_t type;
+        int id;
+        char *name;
+        abus_subscriber_type type;
+        void *data;
+        size_t size;
         void *(*callback)(void *data);
-        //TODO:过滤器
     } subscriber_t;
 
     typedef struct abus_accounter
     {
         int id;
         char *name;
-        // abus_bus_t* bus;
+        abus_bus_t* bus;
 
 #if ABUS_USE_CVECTOR
-        cvector subscribers;//保存订阅者名字
-        cvector sub_sync;//同步订阅缓存
-        cvector sub_async;//异步订阅缓存
+        cvector subscribers;
 #else
     subscriber_t *subscribers;
 #endif
     } abus_accounter_t;
 
-    int abus_public(abus_accounter_t *publicer, void *data, size_t size);
-
-    int abus_subscribe(abus_accounter_t* publicer, subscriber_t* subscriber);
+    int abus_public(abus_accounter_t *publicer, void *data, size_t size, abus_subscriber_type type);
+    int abus_subscribe(abus_accounter_t* publicer, subscriber_t* subscriber, void* (*callback)(void* data));
     int abus_unsubscribe(abus_accounter_t* publicer, subscriber_t* subscriber);
-
-    int abus_subscribe_by_name(const char* publicer, const char* subscriber,subscriber_t*cfg);
-    int abus_unsubscribe_by_name(const char* publicer, const char* subscriber);
-    
-    int abus_accounter_config(const char* name,flag_t* config);
-
-
     abus_accounter_t* abus_accounter_create(const char* name);
+    void abus_accounter_destroy(abus_accounter_t* accounter);
+    abus_accounter_t* abus_accounter_find(const char* name);    
+    abus_accounter_t* abus_accounter_find_by_id(int id);
 
 #if defined(__cplusplus)
 }
