@@ -10,9 +10,9 @@
  */
 #include "bus.h"
 
-abus_bus_t __bus; 
+abus_bus_t __bus;
 abus_bus_t *bus = &__bus;
-abus_bus_t *abus_bus_init(  const char *name)
+abus_bus_t *abus_bus_init(const char *name)
 {
     ABUS_ASSERT(bus);
     {
@@ -39,7 +39,7 @@ void abus_bus_destroy(void)
     }
 }
 
-int abus_bus_add_accounter( abus_accounter_t *accounter)
+int abus_bus_add_accounter(abus_accounter_t *accounter)
 {
     ABUS_ASSERT(bus);
     {
@@ -59,7 +59,7 @@ int abus_bus_add_accounter( abus_accounter_t *accounter)
     }
     return 0;
 }
-int abus_bus_remove_accounter( abus_accounter_t *accounter)
+int abus_bus_remove_accounter(abus_accounter_t *accounter)
 {
     ABUS_ASSERT(bus);
     {
@@ -82,7 +82,7 @@ int abus_bus_remove_accounter( abus_accounter_t *accounter)
     }
     return -1;
 }
-bool abus_bus_find_accounter(  abus_accounter_t *accounter)
+bool abus_bus_find_accounter(abus_accounter_t *accounter)
 {
     ABUS_ASSERT(bus);
     {
@@ -109,7 +109,7 @@ bool abus_bus_find_accounter(  abus_accounter_t *accounter)
     return false;
 }
 
-abus_accounter_t *abus_bus_find_accounter_by_name( const char *name)
+abus_accounter_t *abus_bus_find_accounter_by_name(const char *name)
 {
     ABUS_ASSERT(bus);
     {
@@ -137,7 +137,7 @@ abus_accounter_t *abus_bus_find_accounter_by_name( const char *name)
     return NULL;
 }
 
-abus_accounter_t *abus_bus_find_accounter_by_id(  int id)
+abus_accounter_t *abus_bus_find_accounter_by_id(int id)
 {
     ABUS_ASSERT(bus);
     {
@@ -163,9 +163,12 @@ abus_accounter_t *abus_bus_find_accounter_by_id(  int id)
     return NULL;
 }
 
-// void abus_bus_destroy(abus_bus_t* bus);
-// int abus_bus_add_accounter(abus_bus_t* bus,abus_accounter_t* accounter);
-// int abus_bus_remove_accounter(abus_bus_t* bus,abus_accounter_t* accounter);
-// bool abus_bus_find_accounter(abus_bus_t* bus,abus_accounter_t* accounter);
-// abus_accounter_t* abus_bus_find_accounter_by_name(abus_bus_t* bus,const char* name);
-// abus_accounter_t* abus_bus_find_accounter_by_id(abus_bus_t* bus,int id);
+int abus_deamon_init(void)
+{
+    struct afifo *fifo1 = afifo_alloc(1024);
+    struct afifo *fifo2 = afifo_alloc(1024);
+    abus_accounter_cfg cfg = {.flag.flag_is_async = 1,
+                              .fifo_input = fifo1,
+                              .fifo_output = fifo2};
+    abus_accounter_init(&__bus.accounters, "deamon acc", &cfg);
+}

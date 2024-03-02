@@ -58,6 +58,8 @@
   "C_Cpp_Runner.msvcSecureNoWarnings": false,
   "files.associations": {
     "accounter.h": "c",
-    "bus.h": "c"
-  }
+    "bus.h": "c",
+    "cvector.h": "c"
+  },
+  "cmake.sourceDirectory": "D:/all_bus/example"
 }

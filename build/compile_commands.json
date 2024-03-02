@@ -1,0 +1,32 @@
+[
+{
+  "directory": "D:/all_bus/build",
+  "command": "C:\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\main.c.obj -c D:\\all_bus\\example\\main.c",
+  "file": "D:/all_bus/example/main.c",
+  "output": "CMakeFiles/main.dir/main.c.obj"
+},
+{
+  "directory": "D:/all_bus/build",
+  "command": "C:\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\D_\\all_bus\\src\\accounter.c.obj -c D:\\all_bus\\src\\accounter.c",
+  "file": "D:/all_bus/src/accounter.c",
+  "output": "CMakeFiles/main.dir/D_/all_bus/src/accounter.c.obj"
+},
+{
+  "directory": "D:/all_bus/build",
+  "command": "C:\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\D_\\all_bus\\src\\afifo.c.obj -c D:\\all_bus\\src\\afifo.c",
+  "file": "D:/all_bus/src/afifo.c",
+  "output": "CMakeFiles/main.dir/D_/all_bus/src/afifo.c.obj"
+},
+{
+  "directory": "D:/all_bus/build",
+  "command": "C:\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\D_\\all_bus\\src\\bus.c.obj -c D:\\all_bus\\src\\bus.c",
+  "file": "D:/all_bus/src/bus.c",
+  "output": "CMakeFiles/main.dir/D_/all_bus/src/bus.c.obj"
+},
+{
+  "directory": "D:/all_bus/build",
+  "command": "C:\\mingw64\\bin\\gcc.exe  @CMakeFiles/main.dir/includes_C.rsp -g -o CMakeFiles\\main.dir\\D_\\all_bus\\src\\cvector.c.obj -c D:\\all_bus\\src\\cvector.c",
+  "file": "D:/all_bus/src/cvector.c",
+  "output": "CMakeFiles/main.dir/D_/all_bus/src/cvector.c.obj"
+}
+]

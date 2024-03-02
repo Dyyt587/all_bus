@@ -16,6 +16,7 @@ extern "C"
 #endif
 #include "cvector.h"
 #include "abus.h"
+#include "afifo.h"
     typedef struct abus_bus abus_bus_t;
     typedef struct abus_accounter abus_accounter_t;
     typedef enum
@@ -52,46 +53,65 @@ extern "C"
 
     // }abus_subscriber_type;
 
-
-    typedef struct{
-        int flag_is_async:1;
-
-    }flag_t;
-    typedef struct
+    typedef struct flag
     {
-        abus_accounter_t* accounter;
+        int flag_is_async : 1;
+
+    } flag_t;
+    typedef struct subscriber subscriber_t;
+
+    typedef struct abus_args
+    {
+        void *data;
+        size_t size;
+    } abus_args_t;
+    typedef int (*abus_callback)(abus_accounter_t *publicer, subscriber_t *subscriber, abus_args_t*args);
+
+    typedef struct subscriber
+    {
+        abus_accounter_t *accounter;
         flag_t type;
-        void *(*callback)(void *data);
-        //TODO:过滤器
+        abus_callback callback;
+        // TODO:过滤器
     } subscriber_t;
 
     typedef struct abus_accounter
     {
         int id;
-        char *name;
-        // abus_bus_t* bus;
+        const char *name;
 
 #if ABUS_USE_CVECTOR
-        cvector subscribers;//保存订阅者名字
-        cvector sub_sync;//同步订阅缓存
-        cvector sub_async;//异步订阅缓存
+        cvector subscribers; // 保存订阅者名字
+        cvector sub_sync;    // 同步订阅缓存
+        cvector sub_async;   // 异步订阅缓存
 #else
     subscriber_t *subscribers;
 #endif
+
+        afifo_t *fifo_input;
+        afifo_t *fifo_output;
+
     } abus_accounter_t;
 
+    typedef struct
+    {
+        flag_t flag;
+        afifo_t *fifo_input;
+        afifo_t *fifo_output;
+    } abus_accounter_cfg;
     int abus_public(abus_accounter_t *publicer, void *data, size_t size);
 
-    int abus_subscribe(abus_accounter_t* publicer, subscriber_t* subscriber);
-    int abus_unsubscribe(abus_accounter_t* publicer, subscriber_t* subscriber);
+    int abus_subscribe(abus_accounter_t *publicer, subscriber_t *subscriber);
+    int abus_unsubscribe(abus_accounter_t *publicer, subscriber_t *subscriber);
 
-    int abus_subscribe_by_name(const char* publicer, const char* subscriber,subscriber_t*cfg);
-    int abus_unsubscribe_by_name(const char* publicer, const char* subscriber);
+    int abus_subscribe_by_name(const char *publicer, const char *subscriber, subscriber_t *cfg);
+    int abus_unsubscribe_by_name(const char *publicer, const char *subscriber);
+
+    int abus_accounter_config(const char *name, abus_accounter_cfg *config);
+
     
-    int abus_accounter_config(const char* name,flag_t* config);
-
-
-    abus_accounter_t* abus_accounter_create(const char* name);
+abus_accounter_t* abus_accounter_init(abus_accounter_t*accounter,const char* name,abus_accounter_cfg* config);
+    abus_accounter_t *abus_accounter_create(const char *name, abus_accounter_cfg *config);
 
 #if defined(__cplusplus)
 }

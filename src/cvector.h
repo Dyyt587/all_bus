@@ -46,6 +46,7 @@ extern "C" {
 	citerator cvector_end      (const cvector cv                            );
 	citerator cvector_next     (const cvector cv, citerator iter            );
 	int       cvector_val_at   (const cvector cv, size_t index, void *memb  );
+	citerator cvector_at   	   (const cvector cv, size_t index              );
 	int       cvector_insert   (const cvector cv, citerator iter, void *memb);
 	int       cvector_insert_at(const cvector cv, size_t index, void *memb  );
 	int       cvector_rm       (const cvector cv, citerator iter            );

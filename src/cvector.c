@@ -49,7 +49,7 @@ cvector cvector_create(const size_t size)
 	cv->cv_len = 0;
  
 	return cv;
-}  
+} 
  
 void cvector_destroy(const cvector cv)  
 {  
@@ -133,7 +133,7 @@ citerator cvector_end(const cvector cv)
 	return (char *)cv->cv_pdata + (cv->cv_size * cv->cv_len);  
 }  
  
-static inline void cvmemove_foreward(const cvector cv, void *from, void *to)  
+inline void cvmemove_foreward(const cvector cv, void *from, void *to)  
 {  
 	size_t size = cv->cv_size;  
 	char *p;  
@@ -141,7 +141,7 @@ static inline void cvmemove_foreward(const cvector cv, void *from, void *to)
 	return;  
 }  
  
-static inline void cvmemove_backward(const cvector cv, void *from, void *to)  
+inline void cvmemove_backward(const cvector cv, void *from, void *to)  
 {  
 	memcpy(from, (char *)from + cv->cv_size, (char *)to - (char *)from);  
 	return;  
@@ -209,7 +209,13 @@ int cvector_val_at(const cvector cv, size_t index, void *memb)
 	memcpy(memb, (char *)cv->cv_pdata + index * cv->cv_size, cv->cv_size);  
 	return 0;  
 }  
- 
+citerator      cvector_at   	   (const cvector cv, size_t index              )
+{
+	//检查是否越界
+	if (index >= cv->cv_len) return NULL;
+	return (char *)cv->cv_pdata + index * cv->cv_size;
+}
+
 int cvector_rm(const cvector cv, citerator iter)  
 {  
 	citerator from;  

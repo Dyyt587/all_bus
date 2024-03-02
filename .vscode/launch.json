@@ -8,8 +8,8 @@
       "args": [],
       "stopAtEntry": false,
       "externalConsole": true,
-      "cwd": "d:/all_bus",
-      "program": "d:/all_bus/build/Debug/outDebug",
+      "cwd": "d:/all_bus/example",
+      "program": "d:/all_bus/example/build/Debug/outDebug",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
