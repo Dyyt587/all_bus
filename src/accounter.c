@@ -84,7 +84,7 @@ int abus_public(abus_accounter_t *publicer, void *data, size_t size)
             continue;
         }
         if(sub->accounter->fifo_input){
-            afifo_put(sub->accounter->fifo_input,data,size);
+            afifo_in(sub->accounter->fifo_input,data,size);
         }
         args.data = data;
         args.size = size;

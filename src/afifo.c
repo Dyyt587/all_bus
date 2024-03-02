@@ -109,7 +109,7 @@ void BUG_ON(bool b) {
 }
 
 
-unsigned int __afifo_put(struct afifo *fifo, const unsigned char *buffer, unsigned int len)
+unsigned int __afifo_in(struct afifo *fifo, const unsigned char *buffer, unsigned int len)
 {
     unsigned int l;
     //buffer中空的长度
@@ -134,7 +134,7 @@ unsigned int __afifo_put(struct afifo *fifo, const unsigned char *buffer, unsign
     return len;
 }
 
-unsigned int __afifo_get(struct afifo *fifo, unsigned char *buffer, unsigned int len)
+unsigned int __afifo_out(struct afifo *fifo, unsigned char *buffer, unsigned int len)
 {
     unsigned int l;
     //有数据的缓冲区的长度
@@ -158,7 +158,7 @@ unsigned int __afifo_get(struct afifo *fifo, unsigned char *buffer, unsigned int
     return len;
 }
 
-unsigned int __afifo_put_try(struct afifo *fifo, const unsigned char *buffer, unsigned int len)
+unsigned int __afifo_in_data(struct afifo *fifo, const unsigned char *buffer, unsigned int len)
 {
     unsigned int l;
     //buffer中空的长度
@@ -183,7 +183,7 @@ unsigned int __afifo_put_try(struct afifo *fifo, const unsigned char *buffer, un
     return len;
 }
 
-unsigned int __afifo_get_try(struct afifo *fifo, unsigned char *buffer, unsigned int len)
+unsigned int __afifo_out_data(struct afifo *fifo, unsigned char *buffer, unsigned int len)
 {
     unsigned int l;
     //有数据的缓冲区的长度
