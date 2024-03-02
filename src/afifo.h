@@ -1,135 +1,183 @@
-#ifndef _AFIFO_H
-#define _AFIFO_H
- 
-#include <stddef.h>
-typedef unsigned char uint8_t;
-typedef struct afifo afifo_t;
-struct afifo {
-	unsigned char *buffer;	/* the buffer holding the data */
-	unsigned int size;	/* the size of the allocated buffer */
-	unsigned int in;	/* data is added at offset (in % size) */
-	unsigned int out;	/* data is extracted from off. (out % size) */
-};
- 
-/*
- * Macros for declaration and initialization of the afifo datatype
- */
-extern struct afifo *afifo_alloc(unsigned int size);
- 
-extern void afifo_init(struct afifo *fifo, uint8_t *buffer,
-			unsigned int size);
-extern unsigned int afifo_in(struct afifo *fifo,
-				const uint8_t *from, unsigned int len);
-extern unsigned int afifo_out(struct afifo *fifo,
-				uint8_t *to, unsigned int len);
- 
-/**
- * afifo_initialized - Check if afifo is initialized.
- * @fifo: fifo to check
- * Return %true if FIFO is initialized, otherwise %false.
- * Assumes the fifo was 0 before.
- */
-static inline int afifo_initialized(struct afifo *fifo)
+
+#ifndef afifo_H
+#define afifo_H
+
+#ifdef __cplusplus
+extern "C"{
+#endif
+
+#include "string.h"
+#include "stdint.h"
+#include "stdbool.h"
+#define __NSX_PASTE__(A,B) A##B
+#ifndef min
+#define min(A,B) __NSMIN_IMPL__(A,B,__COUNTER__)
+#endif
+#define __NSMIN_IMPL__(A,B,L) ({ __typeof__(A) __NSX_PASTE__(__a,L) = (A); \
+                             __typeof__(B) __NSX_PASTE__(__b,L) = (B); \
+                             (__NSX_PASTE__(__a,L) < __NSX_PASTE__(__b,L)) ? __NSX_PASTE__(__a,L) : __NSX_PASTE__(__b,L); \
+                          })
+
+typedef struct{
+    int TODO;
+}spinlock_t;
+//#define spin_lock_irqrestore(lock, flags) flags = (unsigned long)lock+1
+//#define spin_unlock_irqrestore(lock, flags) flags = (unsigned long)lock+1
+int spin_unlock_irqrestore(spinlock_t* lock,unsigned int flags);
+int spin_lock_irqrestore(spinlock_t* lock,unsigned int flags);
+
+#define EPERM 1 /* Operation not permitted */
+#define ENOENT 2 /* No such file or directory */
+#define ESRCH 3 /* No such process */
+#define EINTR 4 /* Interrupted system call */
+
+
+typedef struct afifo {
+    unsigned char *buffer;     /* the buffer holding the data */
+    unsigned int size;         /* the size of the allocated buffer */
+    unsigned int in;           /* data is added at offset (in % size) */
+    unsigned int out;          /* data is extracted from off. (out % size) */
+    spinlock_t *lock;          /* protects concurrent modifications */
+}afifo_t;
+
+
+bool is_power_of_2(int n) ;
+unsigned int __afifo_put(struct afifo *fifo, const unsigned char *buffer, unsigned int len);
+unsigned int __afifo_get(struct afifo *fifo, unsigned char *buffer, unsigned int len);
+unsigned int __afifo_put_try(struct afifo *fifo, const unsigned char *buffer, unsigned int len);
+unsigned int __afifo_get_try(struct afifo *fifo, unsigned char *buffer, unsigned int len);
+
+static inline void *ERR_PTR(long error)
 {
-	return fifo->buffer != NULL;
+    return (void *) error;
 }
- 
-/**
- * afifo_reset - removes the entire FIFO contents
- * @fifo: the fifo to be emptied.
- */
-static inline void afifo_reset(struct afifo *fifo)
+static inline long PTR_ERR(const void *ptr)
 {
-	fifo->in = fifo->out = 0;
+    return (long) ptr;
 }
- 
-/**
- * afifo_reset_out - skip FIFO contents
- * @fifo: the fifo to be emptied.
- */
-static inline void afifo_reset_out(struct afifo *fifo)
+static inline long IS_ERR(const void *ptr)
 {
-	fifo->out = fifo->in;
+    return (unsigned long)ptr > (unsigned long)-1000L;
 }
- 
-/**
- * afifo_size - returns the size of the fifo in bytes
- * @fifo: the fifo to be used.
- */
+
+static inline unsigned int afifo_get_used(struct afifo *afifo)
+{
+	return (afifo->in - afifo->out);
+}
+static inline unsigned int afifo_get_free(struct afifo *afifo)
+{
+	return afifo->size - afifo_get_used(afifo);
+}
+
+struct afifo *afifo_init(unsigned char *buffer, unsigned int size, spinlock_t *lock);
+
+#define afifo_INIT(fifo,_size,_lock) do { \
+    static afifo_t fifo##_body;               \
+    static uint8_t fifo##_buf[_size];               \
+     fifo##_body.buffer =  fifo##_buf;      \
+     fifo##_body.size=_size;           \
+    (fifo##_body).in = (fifo##_body).out = 0; \
+    (fifo##_body).lock = (_lock);         \
+    fifo = &(fifo##_body);                                          \
+} while (0)
+//arm stm32f7/h7 use
+#define afifo_alloc_static(pout,size,lock) do{\
+	static uint8_t __##size##lock_buffer[size];\
+	pout = afifo_init(__##size##lock_buffer,size,lock);\
+}	while(0)
+#define afifo_alloc_static_dma(pout,size,lock) do{\
+	static uint8_t __##size##lock_buffer[size] ;\
+	pout = afifo_init(__##size##lock_buffer,size,lock);\
+}	while(0)
+
+struct afifo *afifo_alloc(unsigned int size, spinlock_t *lock);
+static inline unsigned int afifo_put(struct afifo *fifo, const unsigned char *buffer, unsigned int len)
+{
+    unsigned long flags;
+    unsigned int ret;
+    spin_lock_irqrestore(fifo->lock, flags);
+    ret = __afifo_put(fifo, buffer, len);
+    spin_unlock_irqrestore(fifo->lock, flags);
+    return ret;
+}
+static inline unsigned int afifo_get(struct afifo *fifo, unsigned char *buffer, unsigned int len)
+{
+    unsigned long flags;
+    unsigned int ret;
+    spin_lock_irqrestore(fifo->lock, flags);
+    ret = __afifo_get(fifo, buffer, len);
+
+    spin_unlock_irqrestore(fifo->lock, flags);
+    return ret;
+}
+static inline unsigned int afifo_put_try(struct afifo *fifo, const unsigned char *buffer, unsigned int len)
+{
+    unsigned long flags;
+    unsigned int ret;
+    spin_lock_irqrestore(fifo->lock, flags);
+    ret = __afifo_put_try(fifo, buffer, len);
+    spin_unlock_irqrestore(fifo->lock, flags);
+    return ret;
+}
+static inline unsigned int afifo_get_try(struct afifo *fifo, unsigned char *buffer, unsigned int len)
+{
+    unsigned long flags;
+    unsigned int ret;
+    spin_lock_irqrestore(fifo->lock, flags);
+    ret = __afifo_get_try(fifo, buffer, len);
+
+    spin_unlock_irqrestore(fifo->lock, flags);
+    return ret;
+}
+static inline unsigned int afifo_put_index(struct afifo *fifo, unsigned int len)
+{
+    //unsigned long flags;
+    unsigned int ret;
+    //unsigned int l;
+    //buffer中空的长度
+    len = min(len, fifo->size - fifo->in + fifo->out);
+    fifo->in += len;  //每次累加，到达最大值后溢出，自动转为0
+    ret = len;
+     return ret;
+}
+static inline unsigned int afifo_get_index(struct afifo *fifo, unsigned int len)
+{
+    unsigned int ret;
+    len = min(len, fifo->in - fifo->out);
+    fifo->out += len; //每次累加，到达最大值后溢出，自动转为0
+    ret = len;
+    //当fifo->in == fifo->out时，buufer为空
+//    if (fifo->in == fifo->out)
+//        fifo->in = fifo->out = 0;
+    return ret;
+}
+
+static inline uint8_t * afifo_get_in_pointer(struct afifo *fifo)
+{
+    return (fifo->buffer + (fifo->in & (fifo->size - 1)));
+}
+static inline uint8_t * afifo_get_out_pointer(struct afifo *fifo)
+{
+    return (fifo->buffer + (fifo->out & (fifo->size - 1)));
+}
+static inline unsigned int afifo_get_free_block(struct afifo *fifo)
+{
+    return (unsigned int)(fifo->size - (fifo->out & (fifo->size - 1)));
+}
+
 static inline unsigned int afifo_size(struct afifo *fifo)
 {
-	return fifo->size;
+    return (unsigned int)(fifo->size);
 }
- 
-/**
- * afifo_len - returns the number of used bytes in the FIFO
- * @fifo: the fifo to be used.
- */
-static inline unsigned int afifo_len(struct afifo *fifo)
+static inline void afifo_reset(struct afifo *fifo)
 {
-	register unsigned int	out;
- 
-	out = fifo->out;
-	
-	return fifo->in - out;
+    unsigned long flags;
+    spin_lock_irqrestore(fifo->lock, flags);
+    fifo->in = fifo->out = 0;
+    spin_unlock_irqrestore(fifo->lock, flags);
 }
- 
-/**
- * afifo_is_empty - returns true if the fifo is empty
- * @fifo: the fifo to be used.
- */
-static inline int afifo_is_empty(struct afifo *fifo)
-{
-	return fifo->in == fifo->out;
-}
- 
-/**
- * afifo_is_full - returns true if the fifo is full
- * @fifo: the fifo to be used.
- */
-static inline int afifo_is_full(struct afifo *fifo)
-{
-	return afifo_len(fifo) == afifo_size(fifo);
-}
- 
-/**
- * afifo_avail - returns the number of bytes available in the FIFO
- * @fifo: the fifo to be used.
- */
-static inline unsigned int afifo_avail(struct afifo *fifo)
-{
-	return afifo_size(fifo) - afifo_len(fifo);
-}
- 
-extern void afifo_skip(struct afifo *fifo, unsigned int len);
- 
-/*
- * __afifo_add_out internal helper function for updating the out offset
- */
-static inline void __afifo_add_out(struct afifo *fifo,
-				unsigned int off)
-{
-	fifo->out += off;
-}
- 
-/*
- * __afifo_add_in internal helper function for updating the in offset
- */
-static inline void __afifo_add_in(struct afifo *fifo,
-				unsigned int off)
-{
-	fifo->in += off;
-}
- 
-/*
- * __afifo_off internal helper function for calculating the index of a
- * given offeset
- */
-static inline unsigned int __afifo_off(struct afifo *fifo, unsigned int off)
-{
-	return off & (fifo->size - 1);
-}
- 
- 
- 
-#endif	/* _afifo_H */
+
+#ifdef __cplusplus
+};
+#endif
+#endif

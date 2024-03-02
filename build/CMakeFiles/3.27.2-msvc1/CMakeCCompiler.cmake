@@ -1,4 +1,4 @@
-set(CMAKE_C_COMPILER "C:/mingw64/bin/gcc.exe")
+set(CMAKE_C_COMPILER "C:/mingw32/bin/gcc.exe")
 set(CMAKE_C_COMPILER_ARG1 "")
 set(CMAKE_C_COMPILER_ID "GNU")
 set(CMAKE_C_COMPILER_VERSION "8.1.0")
@@ -21,11 +21,11 @@ set(CMAKE_C_SIMULATE_VERSION "")
 
 
 
-set(CMAKE_AR "C:/mingw64/bin/ar.exe")
-set(CMAKE_C_COMPILER_AR "C:/mingw64/bin/gcc-ar.exe")
-set(CMAKE_RANLIB "C:/mingw64/bin/ranlib.exe")
-set(CMAKE_C_COMPILER_RANLIB "C:/mingw64/bin/gcc-ranlib.exe")
-set(CMAKE_LINKER "C:/mingw64/bin/ld.exe")
+set(CMAKE_AR "C:/mingw32/bin/ar.exe")
+set(CMAKE_C_COMPILER_AR "C:/mingw32/bin/gcc-ar.exe")
+set(CMAKE_RANLIB "C:/mingw32/bin/ranlib.exe")
+set(CMAKE_C_COMPILER_RANLIB "C:/mingw32/bin/gcc-ranlib.exe")
+set(CMAKE_LINKER "C:/mingw32/bin/ld.exe")
 set(CMAKE_MT "")
 set(CMAKE_TAPI "CMAKE_TAPI-NOTFOUND")
 set(CMAKE_COMPILER_IS_GNUCC 1)
@@ -42,7 +42,7 @@ set(CMAKE_C_LINKER_PREFERENCE 10)
 set(CMAKE_C_LINKER_DEPFILE_SUPPORTED FALSE)
 
 # Save compiler ABI information.
-set(CMAKE_C_SIZEOF_DATA_PTR "8")
+set(CMAKE_C_SIZEOF_DATA_PTR "4")
 set(CMAKE_C_COMPILER_ABI "")
 set(CMAKE_C_BYTE_ORDER "LITTLE_ENDIAN")
 set(CMAKE_C_LIBRARY_ARCHITECTURE "")
@@ -68,7 +68,7 @@ endif()
 
 
 
-set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include;C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0/include-fixed;C:/mingw64/x86_64-w64-mingw32/include")
+set(CMAKE_C_IMPLICIT_INCLUDE_DIRECTORIES "C:/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include;C:/mingw32/lib/gcc/i686-w64-mingw32/8.1.0/include-fixed;C:/mingw32/i686-w64-mingw32/include")
 set(CMAKE_C_IMPLICIT_LINK_LIBRARIES "mingw32;gcc;moldname;mingwex;advapi32;shell32;user32;kernel32;iconv;mingw32;gcc;moldname;mingwex")
-set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "C:/mingw64/lib/gcc/x86_64-w64-mingw32/8.1.0;C:/mingw64/lib/gcc;C:/mingw64/x86_64-w64-mingw32/lib;C:/mingw64/lib")
+set(CMAKE_C_IMPLICIT_LINK_DIRECTORIES "C:/mingw32/lib/gcc/i686-w64-mingw32/8.1.0;C:/mingw32/lib/gcc;C:/mingw32/i686-w64-mingw32/lib;C:/mingw32/lib")
 set(CMAKE_C_IMPLICIT_LINK_FRAMEWORK_DIRECTORIES "")

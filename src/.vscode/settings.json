@@ -55,11 +55,5 @@
   "C_Cpp_Runner.useLeakSanitizer": false,
   "C_Cpp_Runner.showCompilationTime": false,
   "C_Cpp_Runner.useLinkTimeOptimization": false,
-  "C_Cpp_Runner.msvcSecureNoWarnings": false,
-  "files.associations": {
-    "accounter.h": "c",
-    "bus.h": "c",
-    "cvector.h": "c"
-  },
-  "cmake.sourceDirectory": "C:/Users/80520/Documents/GitHub/all_bus/example"
+  "C_Cpp_Runner.msvcSecureNoWarnings": false
 }

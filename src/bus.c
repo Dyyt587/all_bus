@@ -165,8 +165,8 @@ abus_accounter_t *abus_bus_find_accounter_by_id(int id)
 
 int abus_deamon_init(void)
 {
-    struct afifo *fifo1 = afifo_alloc(1024);
-    struct afifo *fifo2 = afifo_alloc(1024);
+    struct afifo *fifo1 = afifo_alloc(1024,0);
+    struct afifo *fifo2 = afifo_alloc(1024,0);
     abus_accounter_cfg cfg = {.flag.flag_is_async = 1,
                               .fifo_input = fifo1,
                               .fifo_output = fifo2};

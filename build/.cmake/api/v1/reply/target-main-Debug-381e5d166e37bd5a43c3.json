@@ -52,7 +52,7 @@
 			[
 				{
 					"backtrace" : 2,
-					"path" : "D:/all_bus/example/../src"
+					"path" : "C:/Users/80520/Documents/GitHub/all_bus/example/../src"
 				}
 			],
 			"language" : "C",
@@ -118,25 +118,25 @@
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "D:/all_bus/src/accounter.c",
+			"path" : "C:/Users/80520/Documents/GitHub/all_bus/src/accounter.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "D:/all_bus/src/afifo.c",
+			"path" : "C:/Users/80520/Documents/GitHub/all_bus/src/afifo.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "D:/all_bus/src/bus.c",
+			"path" : "C:/Users/80520/Documents/GitHub/all_bus/src/bus.c",
 			"sourceGroupIndex" : 0
 		},
 		{
 			"backtrace" : 1,
 			"compileGroupIndex" : 0,
-			"path" : "D:/all_bus/src/cvector.c",
+			"path" : "C:/Users/80520/Documents/GitHub/all_bus/src/cvector.c",
 			"sourceGroupIndex" : 0
 		}
 	],

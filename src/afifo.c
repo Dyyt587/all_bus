@@ -1,150 +1,209 @@
+#include <errno.h>
 #include "afifo.h"
-#include <string.h>
- 
- 
-#define min(a,b) ((a)<(b)?(a):(b))
- 
-/* is x a power of 2? */
-#define is_power_of_2(x)	((x) != 0 && (((x) & ((x) - 1)) == 0))
- 
-/**
- * afifo_init - initialize a FIFO using a preallocated buffer
- * @fifo: the fifo to assign the buffer
- * @buffer: the preallocated buffer to be used.
- * @size: the size of the internal buffer, this has to be a power of 2.
- *
- */
-void afifo_init(struct afifo *fifo, uint8_t *buffer, unsigned int size)
+#include "stdint.h"
+#include "stdbool.h"
+#include "string.h"
+#include "stdlib.h"
+void BUG_ON(bool b);
+
+unsigned int roundup_pow_of_two(unsigned int size);
+
+
+int spin_lock_irqrestore(spinlock_t* lock,unsigned int flags)
 {
-	/* TODO: size must be a power of 2 */
-	
-	fifo->buffer = buffer;
-	fifo->size = size;
- 
-	afifo_reset(fifo);
+	flags = (unsigned int)lock+1;
+	return flags;
 }
- struct afifo *afifo_alloc(unsigned int size)
- {
-	if(is_power_of_2(size))
-	{
-		struct afifo *fifo = malloc(sizeof(struct afifo)+size);
-		if(fifo)
-		{
-			fifo->buffer = (fifo+sizeof(struct afifo));
-				fifo->size = size;
-				afifo_reset(fifo);
-				return fifo;
-			
-		}
-		return NULL;
-	}
-	else
-	{
-		return NULL;
-	}
- }
-static inline void __afifo_in_data(struct afifo *fifo,
-		const uint8_t *from, unsigned int len, unsigned int off)
+int spin_unlock_irqrestore(spinlock_t* lock,unsigned int flags)
 {
-	unsigned int l;
- 
-	/*
-	 * Ensure that we sample the fifo->out index -before- we
-	 * start putting bytes into the afifo.
-	 */
- 
-	off = __afifo_off(fifo, fifo->in + off);
- 
-	/* first put the data starting from fifo->in to buffer end */
-	l = min(len, fifo->size - off);
-	memcpy(fifo->buffer + off, from, l);
- 
-	/* then put the rest (if any) at the beginning of the buffer */
-	memcpy(fifo->buffer, from + l, len - l);
+	flags = (unsigned int)lock+1;
+		return flags;
+
 }
- 
-static inline void __afifo_out_data(struct afifo *fifo,
-		uint8_t *to, unsigned int len, unsigned int off)
+
+
+
+bool is_power_of_2(int n) {
+//    int i,j;
+    if(n<=0)
+        return false;
+    if(n==1)
+        return true;
+    while(n!=1)
+    {
+        if(n%2==0)
+            n=n/2;
+        else
+            return false;
+    }
+    return true;
+}
+
+
+
+void *kmalloc(size_t i) {
+    return malloc(i);
+}
+
+void kfree(unsigned char *buffer) {
+    free(buffer);
+}
+struct afifo *afifo_init(unsigned char *buffer, unsigned int size, spinlock_t *lock)
 {
-	unsigned int l;
- 
-	/*
-	 * Ensure that we sample the fifo->in index -before- we
-	 * start removing bytes from the afifo.
-	 */
- 
-	off = __afifo_off(fifo, fifo->out + off);
- 
-	/* first get the data from fifo->out until the end of the buffer */
-	l = min(len, fifo->size - off);
-	memcpy(to, fifo->buffer + off, l);
- 
-	/* then get the rest (if any) from the beginning of the buffer */
-	memcpy(to + l, fifo->buffer, len - l);
+    struct afifo *fifo;
+    /* size must be a power of 2 */
+    BUG_ON(!is_power_of_2(size));
+    fifo = kmalloc(sizeof(struct afifo));
+    if (!fifo)
+        return ERR_PTR(-ENOMEM);
+    fifo->buffer = buffer;
+    fifo->size = size;
+    fifo->in = fifo->out = 0;
+    fifo->lock = lock;
+
+    return fifo;
 }
- 
-unsigned int __afifo_in_n(struct afifo *fifo,
-	const uint8_t *from, unsigned int len, unsigned int recsize)
+
+
+struct afifo *afifo_alloc(unsigned int size, spinlock_t *lock)
 {
-	if (afifo_avail(fifo) < len + recsize)
-		return len + 1;
- 
-	__afifo_in_data(fifo, from, len, recsize);
-	return 0;
+    unsigned char *buffer;
+    struct afifo *ret;
+    if (!is_power_of_2(size)) {
+        BUG_ON(size > 0x80000000);
+        size = roundup_pow_of_two(size);
+    }
+    buffer = kmalloc(size);
+    if (!buffer)
+        return ERR_PTR(-ENOMEM);
+    ret = afifo_init(buffer, size, lock);
+
+    if (IS_ERR(ret))
+        kfree(buffer);
+    return ret;
 }
- 
- 
-/**
- * afifo_in - puts some data into the FIFO
- * @fifo: the fifo to be used.
- * @from: the data to be added.
- * @len: the length of the data to be added.
- *
- * This function copies at most @len bytes from the @from buffer into
- * the FIFO depending on the free space, and returns the number of
- * bytes copied.
- *
- * Note that with only one concurrent reader and one concurrent
- * writer, you don't need extra locking to use these functions.
- */
-unsigned int afifo_in(struct afifo *fifo, const uint8_t *from,
-				unsigned int len)
+
+
+
+static unsigned int fls(unsigned int x)
 {
-	len = min(afifo_avail(fifo), len);
- 
-	__afifo_in_data(fifo, from, len, 0);
-	__afifo_add_in(fifo, len);
-	return len;
+    unsigned int position;
+    unsigned int i;
+    if(0 != x)
+    {
+        for (i = (x >> 1), position = 0; i != 0; ++position)
+            i >>= 1;
+    }
+    else
+    {
+        position = -1;
+    }
+    return position+1;
 }
-unsigned int __afifo_out_n(struct afifo *fifo,
-	uint8_t *to, unsigned int len, unsigned int recsize)
+unsigned int roundup_pow_of_two(unsigned int size) {
+    return 1UL << fls(size - 1);
+}
+
+void BUG_ON(bool b) {
+    while(b){}
+}
+
+
+unsigned int __afifo_put(struct afifo *fifo, const unsigned char *buffer, unsigned int len)
 {
-	if (afifo_len(fifo) < len + recsize)
-		return len;
- 
-	__afifo_out_data(fifo, to, len, recsize);
-	__afifo_add_out(fifo, len + recsize);
-	return 0;
+    unsigned int l;
+    //buffer中空的长度
+    len = min(len, fifo->size - fifo->in + fifo->out);
+    /*
+     * Ensure that we sample the fifo->out index -before- we
+     * start putting bytes into the afifo.
+     */
+    // smp_mb();
+    /* first put the data starting from fifo->in to buffer end */
+    l = min(len, fifo->size - (fifo->in & (fifo->size - 1)));
+    memcpy(fifo->buffer + (fifo->in & (fifo->size - 1)), buffer, l);
+    /* then put the rest (if any) at the beginning of the buffer */
+    memcpy(fifo->buffer, buffer + l, len - l);
+
+    /*
+     * Ensure that we add the bytes to the afifo -before-
+     * we update the fifo->in index.
+     */
+    // smp_wmb();
+    fifo->in += len;  //每次累加，到达最大值后溢出，自动转为0
+    return len;
 }
- 
-/**
- * afifo_out - gets some data from the FIFO
- * @fifo: the fifo to be used.
- * @to: where the data must be copied.
- * @len: the size of the destination buffer.
- *
- * This function copies at most @len bytes from the FIFO into the
- * @to buffer and returns the number of copied bytes.
- *
- * Note that with only one concurrent reader and one concurrent
- * writer, you don't need extra locking to use these functions.
- */
-unsigned int afifo_out(struct afifo *fifo, uint8_t *to, unsigned int len)
+
+unsigned int __afifo_get(struct afifo *fifo, unsigned char *buffer, unsigned int len)
 {
-	len = min(afifo_len(fifo), len);
- 
-	__afifo_out_data(fifo, to, len, 0);
-	__afifo_add_out(fifo, len);
- 
-	return len;
+    unsigned int l;
+    //有数据的缓冲区的长度
+    len = min(len, fifo->in - fifo->out);
+    /*
+     * Ensure that we sample the fifo->in index -before- we
+     * start removing bytes from the afifo.
+     */
+    //  smp_rmb();
+    /* first get the data from fifo->out until the end of the buffer */
+    l = min(len, fifo->size - (fifo->out & (fifo->size - 1)));
+    memcpy(buffer, fifo->buffer + (fifo->out & (fifo->size - 1)), l);
+    /* then get the rest (if any) from the beginning of the buffer */
+    memcpy(buffer + l, fifo->buffer, len - l);
+    /*
+     * Ensure that we remove the bytes from the afifo -before-
+     * we update the fifo->out index.
+     */
+    // smp_mb();
+    fifo->out += len; //每次累加，到达最大值后溢出，自动转为0
+    return len;
 }
+
+unsigned int __afifo_put_try(struct afifo *fifo, const unsigned char *buffer, unsigned int len)
+{
+    unsigned int l;
+    //buffer中空的长度
+    len = min(len, fifo->size - fifo->in + fifo->out);
+    /*
+     * Ensure that we sample the fifo->out index -before- we
+     * start putting bytes into the afifo.
+     */
+    // smp_mb();
+    /* first put the data starting from fifo->in to buffer end */
+    l = min(len, fifo->size - (fifo->in & (fifo->size - 1)));
+    memcpy(fifo->buffer + (fifo->in & (fifo->size - 1)), buffer, l);
+    /* then put the rest (if any) at the beginning of the buffer */
+    memcpy(fifo->buffer, buffer + l, len - l);
+
+    /*
+     * Ensure that we add the bytes to the afifo -before-
+     * we update the fifo->in index.
+     */
+    // smp_wmb();
+    //fifo->in += len;  //每次累加，到达最大值后溢出，自动转为0
+    return len;
+}
+
+unsigned int __afifo_get_try(struct afifo *fifo, unsigned char *buffer, unsigned int len)
+{
+    unsigned int l;
+    //有数据的缓冲区的长度
+    len = min(len, fifo->in - fifo->out);
+    /*
+     * Ensure that we sample the fifo->in index -before- we
+     * start removing bytes from the afifo.
+     */
+    //  smp_rmb();
+    /* first get the data from fifo->out until the end of the buffer */
+    l = min(len, fifo->size - (fifo->out & (fifo->size - 1)));
+    memcpy(buffer, fifo->buffer + (fifo->out & (fifo->size - 1)), l);
+    /* then get the rest (if any) from the beginning of the buffer */
+    memcpy(buffer + l, fifo->buffer, len - l);
+    /*
+     * Ensure that we remove the bytes from the afifo -before-
+     * we update the fifo->out index.
+     */
+    // smp_mb();
+    //fifo->out += len; //每次累加，到达最大值后溢出，自动转为0
+    return len;
+}
+
