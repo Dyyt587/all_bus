@@ -91,7 +91,7 @@ extern "C"
 		static uint8_t __##size##lock_buffer[size];           \
 		pout = afifo_init(__##size##lock_buffer, size, lock); \
 	} while (0)
-#define afifo_alloc_static_section(pout, size, lock, section)              \
+#define afifo_alloc_static_section(pout, size, lock, section) \
 	do                                                        \
 	{                                                         \
 		static uint8_t __##size##lock_buffer[size];           \

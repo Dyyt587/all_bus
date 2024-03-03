@@ -43,16 +43,6 @@ extern "C"
         ASYNC_WITH_CACHE = ASYNC | CACHE
     } abus_subscriber_type;
 
-    //     TYPE_SYNC_WITH_CACHE, //内容将会拷贝一份到订阅者的缓存中
-    //     TYPE_SYNC_WITHOUT_CACHE,//内容将会直接传递给订阅者
-    //     TYPE_SYNC_WITH_CACHE_REF,//内容的引用将会传递给订阅者，拷贝到订阅者的缓存中
-    //     TYPE_SYNC_WITH_CACHE_BUT_REF,//内容的引用将会传递给订阅者，拷贝到订阅者的缓存中
-
-    //     TYPE_ASYNC,//异步方式，数据将交由deamon线程处理，数据会被拷贝一份到订阅者的缓存中
-    //     TYPE_ASYNC_WITH_CACHE_REF//内容的引用将会传递给deamon，拷贝到订阅者的缓存中
-
-    // }abus_subscriber_type;
-
     typedef struct flag
     {
         int flag_is_async : 1;
@@ -110,7 +100,7 @@ extern "C"
     int abus_accounter_config(const char *name, abus_accounter_cfg *config);
 
     
-abus_accounter_t* abus_accounter_init(abus_accounter_t*accounter,const char* name,abus_accounter_cfg* config);
+    abus_accounter_t* abus_accounter_init(abus_accounter_t*accounter,const char* name,abus_accounter_cfg* config);
     abus_accounter_t *abus_accounter_create(const char *name, abus_accounter_cfg *config);
 
 #if defined(__cplusplus)
