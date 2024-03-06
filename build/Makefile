@@ -47,19 +47,19 @@ cmake_force:
 SHELL = cmd.exe
 
 # The CMake executable.
-CMAKE_COMMAND = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe"
+CMAKE_COMMAND = "C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe"
 
 # The command to remove a file.
-RM = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E rm -f
+RM = "C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E rm -f
 
 # Escaping for special characters.
 EQUALS = =
 
 # The top-level source directory on which CMake was run.
-CMAKE_SOURCE_DIR = C:\Users\80520\Documents\GitHub\all_bus\example
+CMAKE_SOURCE_DIR = D:\all_bus\example
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = C:\Users\80520\Documents\GitHub\all_bus\build
+CMAKE_BINARY_DIR = D:\all_bus\build
 
 #=============================================================================
 # Targets provided globally by CMake.
@@ -67,7 +67,7 @@ CMAKE_BINARY_DIR = C:\Users\80520\Documents\GitHub\all_bus\build
 # Special rule for the target edit_cache
 edit_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "No interactive CMake dialog available..."
-	"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available."
+	"C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E echo "No interactive CMake dialog available."
 .PHONY : edit_cache
 
 # Special rule for the target edit_cache
@@ -77,7 +77,7 @@ edit_cache/fast: edit_cache
 # Special rule for the target rebuild_cache
 rebuild_cache:
 	@$(CMAKE_COMMAND) -E cmake_echo_color "--switch=$(COLOR)" --cyan "Running CMake to regenerate build system..."
-	"C:\Program Files\Microsoft Visual Studio\2022\Enterprise\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+	"C:\Program Files\Microsoft Visual Studio\2022\Preview\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" --regenerate-during-build -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
 .PHONY : rebuild_cache
 
 # Special rule for the target rebuild_cache
@@ -86,9 +86,9 @@ rebuild_cache/fast: rebuild_cache
 
 # The main all target
 all: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\80520\Documents\GitHub\all_bus\build\CMakeFiles C:\Users\80520\Documents\GitHub\all_bus\build\\CMakeFiles\progress.marks
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\all_bus\build\CMakeFiles D:\all_bus\build\\CMakeFiles\progress.marks
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\Makefile2 all
-	$(CMAKE_COMMAND) -E cmake_progress_start C:\Users\80520\Documents\GitHub\all_bus\build\CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start D:\all_bus\build\CMakeFiles 0
 .PHONY : all
 
 # The main clean target
@@ -128,101 +128,101 @@ main/fast:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/build
 .PHONY : main/fast
 
-C_/Users/80520/Documents/GitHub/all_bus/src/accounter.obj: C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.obj
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/accounter.obj
+D_/all_bus/src/accounter.obj: D_/all_bus/src/accounter.c.obj
+.PHONY : D_/all_bus/src/accounter.obj
 
 # target to build an object file
-C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.obj
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.obj
+D_/all_bus/src/accounter.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/accounter.c.obj
+.PHONY : D_/all_bus/src/accounter.c.obj
 
-C_/Users/80520/Documents/GitHub/all_bus/src/accounter.i: C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.i
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/accounter.i
+D_/all_bus/src/accounter.i: D_/all_bus/src/accounter.c.i
+.PHONY : D_/all_bus/src/accounter.i
 
 # target to preprocess a source file
-C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.i
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.i
+D_/all_bus/src/accounter.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/accounter.c.i
+.PHONY : D_/all_bus/src/accounter.c.i
 
-C_/Users/80520/Documents/GitHub/all_bus/src/accounter.s: C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.s
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/accounter.s
+D_/all_bus/src/accounter.s: D_/all_bus/src/accounter.c.s
+.PHONY : D_/all_bus/src/accounter.s
 
 # target to generate assembly for a file
-C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.s
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.s
+D_/all_bus/src/accounter.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/accounter.c.s
+.PHONY : D_/all_bus/src/accounter.c.s
 
-C_/Users/80520/Documents/GitHub/all_bus/src/afifo.obj: C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.obj
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/afifo.obj
+D_/all_bus/src/afifo.obj: D_/all_bus/src/afifo.c.obj
+.PHONY : D_/all_bus/src/afifo.obj
 
 # target to build an object file
-C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.obj
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.obj
+D_/all_bus/src/afifo.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/afifo.c.obj
+.PHONY : D_/all_bus/src/afifo.c.obj
 
-C_/Users/80520/Documents/GitHub/all_bus/src/afifo.i: C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.i
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/afifo.i
+D_/all_bus/src/afifo.i: D_/all_bus/src/afifo.c.i
+.PHONY : D_/all_bus/src/afifo.i
 
 # target to preprocess a source file
-C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.i
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.i
+D_/all_bus/src/afifo.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/afifo.c.i
+.PHONY : D_/all_bus/src/afifo.c.i
 
-C_/Users/80520/Documents/GitHub/all_bus/src/afifo.s: C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.s
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/afifo.s
+D_/all_bus/src/afifo.s: D_/all_bus/src/afifo.c.s
+.PHONY : D_/all_bus/src/afifo.s
 
 # target to generate assembly for a file
-C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.s
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.s
+D_/all_bus/src/afifo.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/afifo.c.s
+.PHONY : D_/all_bus/src/afifo.c.s
 
-C_/Users/80520/Documents/GitHub/all_bus/src/bus.obj: C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.obj
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/bus.obj
+D_/all_bus/src/bus.obj: D_/all_bus/src/bus.c.obj
+.PHONY : D_/all_bus/src/bus.obj
 
 # target to build an object file
-C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.obj
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.obj
+D_/all_bus/src/bus.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/bus.c.obj
+.PHONY : D_/all_bus/src/bus.c.obj
 
-C_/Users/80520/Documents/GitHub/all_bus/src/bus.i: C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.i
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/bus.i
+D_/all_bus/src/bus.i: D_/all_bus/src/bus.c.i
+.PHONY : D_/all_bus/src/bus.i
 
 # target to preprocess a source file
-C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.i
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.i
+D_/all_bus/src/bus.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/bus.c.i
+.PHONY : D_/all_bus/src/bus.c.i
 
-C_/Users/80520/Documents/GitHub/all_bus/src/bus.s: C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.s
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/bus.s
+D_/all_bus/src/bus.s: D_/all_bus/src/bus.c.s
+.PHONY : D_/all_bus/src/bus.s
 
 # target to generate assembly for a file
-C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.s
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.s
+D_/all_bus/src/bus.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/bus.c.s
+.PHONY : D_/all_bus/src/bus.c.s
 
-C_/Users/80520/Documents/GitHub/all_bus/src/cvector.obj: C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.obj
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/cvector.obj
+D_/all_bus/src/cvector.obj: D_/all_bus/src/cvector.c.obj
+.PHONY : D_/all_bus/src/cvector.obj
 
 # target to build an object file
-C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.obj:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.obj
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.obj
+D_/all_bus/src/cvector.c.obj:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/cvector.c.obj
+.PHONY : D_/all_bus/src/cvector.c.obj
 
-C_/Users/80520/Documents/GitHub/all_bus/src/cvector.i: C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.i
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/cvector.i
+D_/all_bus/src/cvector.i: D_/all_bus/src/cvector.c.i
+.PHONY : D_/all_bus/src/cvector.i
 
 # target to preprocess a source file
-C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.i:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.i
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.i
+D_/all_bus/src/cvector.c.i:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/cvector.c.i
+.PHONY : D_/all_bus/src/cvector.c.i
 
-C_/Users/80520/Documents/GitHub/all_bus/src/cvector.s: C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.s
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/cvector.s
+D_/all_bus/src/cvector.s: D_/all_bus/src/cvector.c.s
+.PHONY : D_/all_bus/src/cvector.s
 
 # target to generate assembly for a file
-C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.s:
-	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.s
-.PHONY : C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.s
+D_/all_bus/src/cvector.c.s:
+	$(MAKE) $(MAKESILENT) -f CMakeFiles\main.dir\build.make CMakeFiles/main.dir/D_/all_bus/src/cvector.c.s
+.PHONY : D_/all_bus/src/cvector.c.s
 
 main.obj: main.c.obj
 .PHONY : main.obj
@@ -257,18 +257,18 @@ help:
 	@echo ... edit_cache
 	@echo ... rebuild_cache
 	@echo ... main
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/accounter.obj
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/accounter.i
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/accounter.s
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/afifo.obj
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/afifo.i
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/afifo.s
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/bus.obj
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/bus.i
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/bus.s
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/cvector.obj
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/cvector.i
-	@echo ... C_/Users/80520/Documents/GitHub/all_bus/src/cvector.s
+	@echo ... D_/all_bus/src/accounter.obj
+	@echo ... D_/all_bus/src/accounter.i
+	@echo ... D_/all_bus/src/accounter.s
+	@echo ... D_/all_bus/src/afifo.obj
+	@echo ... D_/all_bus/src/afifo.i
+	@echo ... D_/all_bus/src/afifo.s
+	@echo ... D_/all_bus/src/bus.obj
+	@echo ... D_/all_bus/src/bus.i
+	@echo ... D_/all_bus/src/bus.s
+	@echo ... D_/all_bus/src/cvector.obj
+	@echo ... D_/all_bus/src/cvector.i
+	@echo ... D_/all_bus/src/cvector.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s

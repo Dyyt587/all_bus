@@ -149,6 +149,7 @@ extern "C"
 		ret = len;
 		return ret;
 	}
+	
 	static inline unsigned int afifo_out(struct afifo *fifo, unsigned char *buffer, unsigned int len)
 	{
 		unsigned long flags;

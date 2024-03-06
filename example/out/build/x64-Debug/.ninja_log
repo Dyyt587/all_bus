@@ -1,0 +1,5 @@
+# ninja log v5
+6	163	7313325402867143	CMakeFiles/main.dir/main.c.obj	23a13d73f5736c1a
+27	180	7313325403026347	CMakeFiles/main.dir/D_/all_bus/src/bus.c.obj	ded56e7b129a788b
+14	181	7313325403026347	CMakeFiles/main.dir/D_/all_bus/src/accounter.c.obj	a2b46fa502f3a4dd
+34	196	7313325403142188	CMakeFiles/main.dir/D_/all_bus/src/cvector.c.obj	4f1159bb861053b1

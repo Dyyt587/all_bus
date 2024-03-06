@@ -1,3 +1,0 @@
-/home/dyyt/all_bus/example/CMakeFiles/main.dir
-/home/dyyt/all_bus/example/CMakeFiles/edit_cache.dir
-/home/dyyt/all_bus/example/CMakeFiles/rebuild_cache.dir

@@ -8,11 +8,11 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "C:/Users/80520/Documents/GitHub/all_bus/src/accounter.c" "CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.obj" "gcc" "CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/accounter.c.obj.d"
-  "C:/Users/80520/Documents/GitHub/all_bus/src/afifo.c" "CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.obj" "gcc" "CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/afifo.c.obj.d"
-  "C:/Users/80520/Documents/GitHub/all_bus/src/bus.c" "CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.obj" "gcc" "CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/bus.c.obj.d"
-  "C:/Users/80520/Documents/GitHub/all_bus/src/cvector.c" "CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.obj" "gcc" "CMakeFiles/main.dir/C_/Users/80520/Documents/GitHub/all_bus/src/cvector.c.obj.d"
-  "C:/Users/80520/Documents/GitHub/all_bus/example/main.c" "CMakeFiles/main.dir/main.c.obj" "gcc" "CMakeFiles/main.dir/main.c.obj.d"
+  "D:/all_bus/src/accounter.c" "CMakeFiles/main.dir/D_/all_bus/src/accounter.c.obj" "gcc" "CMakeFiles/main.dir/D_/all_bus/src/accounter.c.obj.d"
+  "D:/all_bus/src/afifo.c" "CMakeFiles/main.dir/D_/all_bus/src/afifo.c.obj" "gcc" "CMakeFiles/main.dir/D_/all_bus/src/afifo.c.obj.d"
+  "D:/all_bus/src/bus.c" "CMakeFiles/main.dir/D_/all_bus/src/bus.c.obj" "gcc" "CMakeFiles/main.dir/D_/all_bus/src/bus.c.obj.d"
+  "D:/all_bus/src/cvector.c" "CMakeFiles/main.dir/D_/all_bus/src/cvector.c.obj" "gcc" "CMakeFiles/main.dir/D_/all_bus/src/cvector.c.obj.d"
+  "D:/all_bus/example/main.c" "CMakeFiles/main.dir/main.c.obj" "gcc" "CMakeFiles/main.dir/main.c.obj.d"
   )
 
 # Targets to which this target links which contain Fortran sources.
